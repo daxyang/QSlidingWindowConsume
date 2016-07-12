@@ -1,0 +1,42 @@
+QSLIDINGWINDOWCONSUME_H	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^#define QSLIDINGWINDOWCONSUME_H$/;"	macro	line:2
+SEQ_LT	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^#define	SEQ_LT(/;"	macro	line:8
+SEQ_LEQ	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^#define SEQ_LEQ(/;"	macro	line:9
+SEQ_GT	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^#define SEQ_GT(/;"	macro	line:10
+SEQ_GEQ	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^#define SEQ_GEQ(/;"	macro	line:11
+SEQ_INCR	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^#define SEQ_INCR(/;"	macro	line:12
+u8	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^typedef unsigned char  	    u8;	\/**< UNSIGNED 8-bit data type *\/$/;"	typedef	line:14
+u16	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^typedef unsigned short 	    u16;\/**< UNSIGNED 16-bit data type *\/$/;"	typedef	line:15
+u32	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^typedef unsigned int   	   	u32;\/**< UNSIGNED 32-bit data type *\/$/;"	typedef	line:16
+u64	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^typedef unsigned long long 	u64;\/**< UNSIGNED 64-bit data type *\/$/;"	typedef	line:17
+s8	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^typedef signed char         s8;	\/**< SIGNED 8-bit data type *\/$/;"	typedef	line:18
+s16	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^typedef signed short       	s16;\/**< SIGNED 16-bit data type *\/$/;"	typedef	line:19
+s32	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^typedef signed int         	s32;\/**< SIGNED 32-bit data type *\/$/;"	typedef	line:20
+s64	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^typedef signed long long	s64;\/**< SIGNED 64-bit data type *\/$/;"	typedef	line:21
+uint8_t	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^typedef u8                  uint8_t;$/;"	typedef	line:22
+uint32_t	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^typedef u32                 uint32_t;$/;"	typedef	line:23
+data_buf_t	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^struct data_buf_t$/;"	struct	line:25
+write_next_seq	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    unsigned write_next_seq;$/;"	member	line:27	struct:data_buf_t
+size	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    unsigned size;$/;"	member	line:28	struct:data_buf_t
+buffer	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    char 	 *buffer;\/\/[MAX_STREAM_LEN];$/;"	member	line:29	struct:data_buf_t
+HEAD_LEN	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^#define HEAD_LEN /;"	macro	line:32
+__HEAD	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^const char __HEAD[] = { \\$/;"	variable	line:33
+_frame_info_t	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^struct _frame_info_t$/;"	struct	line:39
+frame_type	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    u16 frame_type;$/;"	member	line:41	struct:_frame_info_t
+head_buf_t	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^struct head_buf_t$/;"	struct	line:43
+flag	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    char flag[HEAD_LEN];$/;"	member	line:45	struct:head_buf_t
+pkg_len	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    u32 pkg_len;$/;"	member	line:46	struct:head_buf_t
+frame	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    struct _frame_info_t frame;$/;"	member	line:47	struct:head_buf_t	typeref:struct:head_buf_t::_frame_info_t
+rev0	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    u16 rev0;$/;"	member	line:48	struct:head_buf_t
+rev1	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    u16 rev1;$/;"	member	line:49	struct:head_buf_t
+rev2	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    u16 rev2;$/;"	member	line:50	struct:head_buf_t
+HEAD_SIZE	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^#define HEAD_SIZE /;"	macro	line:52
+QSlidingWindowConsume	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^class QSLIDINGWINDOWCONSUMESHARED_EXPORT QSlidingWindowConsume$/;"	class	line:56
+chr_read_head	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    char chr_read_head[sizeof(head_buf_t)];  \/\/缓冲区中头字符串$/;"	member	line:67	class:QSlidingWindowConsume
+read_head	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    head_buf_t *read_head; \/\/缓冲区中头指针$/;"	member	line:68	class:QSlidingWindowConsume
+read_seq	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    u32 read_seq;  \/\/读指针(序列号)$/;"	member	line:69	class:QSlidingWindowConsume
+write_next_seq	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    u32 write_next_seq; \/\/写指针(序列号)$/;"	member	line:70	class:QSlidingWindowConsume
+dataBuffer	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    data_buf_t *dataBuffer;  \/\/数据缓冲区$/;"	member	line:71	class:QSlidingWindowConsume
+wnd_size	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    u32 wnd_size;  \/\/窗口大小$/;"	member	line:72	class:QSlidingWindowConsume
+SHIFT_BITS	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    int SHIFT_BITS;  \/\/移位位数$/;"	member	line:73	class:QSlidingWindowConsume
+node_no	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    int node_no;  \/\/用户编号$/;"	member	line:74	class:QSlidingWindowConsume
+empty_state	/Users/qianzhengyang/QSlidingWindowConsume/qslidingwindowconsume.h	/^    int empty_state;$/;"	member	line:75	class:QSlidingWindowConsume
