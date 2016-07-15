@@ -61,7 +61,11 @@ public:
     void read_init(); //读指针初始化
     int read_data_to_buffer(char *data_buffer); //将数据读取到缓冲区
     int read_data_and_head(char *data_buffer); //读取数据和头
-    int IsEmpty();
+    /*
+     * add by antony 2016-7-15
+     */
+    int read_data_to_buffer(char *data_buffer,int locked); //非锁定方式读取数据
+    /*int IsEmpty(); //delete by antony 2016-7-15 */
 
 private:
     char chr_read_head[sizeof(head_buf_t)];  //缓冲区中头字符串
@@ -72,7 +76,7 @@ private:
     u32 wnd_size;  //窗口大小
     int SHIFT_BITS;  //移位位数
     int node_no;  //用户编号
-    int empty_state;
+    /*int empty_state; //delete by antony 2016-7-15 */
 };
 
 #endif // QSLIDINGWINDOWCONSUME_H
