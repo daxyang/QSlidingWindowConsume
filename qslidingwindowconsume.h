@@ -53,7 +53,8 @@ struct head_buf_t
 
 
 
-class QSLIDINGWINDOWCONSUMESHARED_EXPORT QSlidingWindowConsume
+//class QSLIDINGWINDOWCONSUMESHARED_EXPORT QSlidingWindowConsume
+class QSlidingWindowConsume
 {
 
 public:
