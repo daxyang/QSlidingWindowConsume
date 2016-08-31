@@ -3,7 +3,7 @@
 #include "stdio.h"
 #include "stdlib.h"
 #include "string.h"
-#include "qslidingwindowconsume_global.h"
+//#include "qslidingwindowconsume_global.h"
 
 #define	SEQ_LT(a, b, c)		((int32_t) (((a) - (b)) << c) < 0)
 #define SEQ_LEQ(a, b, c)	((int32_t) (((a) - (b)) << c) <= 0)
@@ -30,11 +30,11 @@ struct data_buf_t
 };
 //保存到缓冲区的结构体
 #define HEAD_LEN (8)
-const char __HEAD[] = { \
-    0x5a,0xa5,
-    0x5a,0xa5,
-    0x5a,0xa5,
-    0x5a,0xa5,
+const char BUFHEAD[] = { \
+    0x55,0xaa, \
+    0xaa,0x55, \
+    0x55,0xaa, \
+    0xaa,0x55, \
 };
 struct _frame_info_t
 {
@@ -50,6 +50,19 @@ struct head_buf_t
     u16 rev2;
 };
 #define HEAD_SIZE (sizeof(head_buf_t))
+
+#define BUILD_PKG_HEAD(p,len,_frame) \
+  p->flag[0] = 0x55; \
+  p->flag[1] = 0xaa; \
+  p->flag[2] = 0xaa; \
+  p->flag[3] = 0x55; \
+  p->flag[4] = 0x55; \
+  p->flag[5] = 0xaa; \
+  p->flag[6] = 0xaa; \
+  p->flag[7] = 0x55;  \
+  p->pkg_len = len; \
+  memcpy(&p->frame,(char *)_frame,sizeof(struct _frame_info_t));
+
 
 
 

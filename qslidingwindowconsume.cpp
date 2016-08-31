@@ -1,4 +1,4 @@
-#include "qslidingwindowconsume.h"
+#include "QSlidingWindowConsume.h"
 #include "math.h"
 #include "unistd.h"
 #include "pthread.h"
@@ -14,7 +14,7 @@ QSlidingWindowConsume::QSlidingWindowConsume(data_buf_t *buffer,int no)
     dataBuffer = buffer;
     wnd_size = buffer->size >> 2;
     SHIFT_BITS = 32 - int(log(dataBuffer->size) / log(2));
-    printf("[Consume]all_size:%d,wnd_size:%d,SHIFT_BITS:%d\n",buffer->size,wnd_size,SHIFT_BITS);
+    //printf("[Consume]all_size:%d,wnd_size:%d,SHIFT_BITS:%d\n",buffer->size,wnd_size,SHIFT_BITS);
     read_head = (head_buf_t *)chr_read_head;
     node_no = no;
     /*empty_state = 0; //delete by antony 2016-7-15*/
@@ -58,7 +58,7 @@ heads:
     int32_t incr = SEQ_INCR(read_seq,wnd_size,dataBuffer->size);
     if(SEQ_LEQ(incr,write_next_seq,SHIFT_BITS))
     {
-        printf("send window stall, break send! incr=%d,write_next_seq=%d\n",incr,write_next_seq);
+        printf("send window stall, break send! incr=%d,write_next_seq=%d,user:%d\n",incr,write_next_seq,node_no);
 
         return -1;
     }
@@ -75,15 +75,24 @@ heads:
     }
     //解析头是否是正确的头信息，如果是，则进行数据读写
     int flag = 1;
-    for(int i = 0;i < HEAD_LEN;i++)
+    for(int i = 0;i < 8;i++)
     {
-        if(chr_read_head[i] != __HEAD[i])
-        {
-            flag = 0;
-            printf("i,read_flag,head:%d,%x,%x \n",i,chr_read_head[i],__HEAD[i]);
-            break;
-        }
+      if(read_head->flag[i] != BUFHEAD[i])
+      {
+        printf("buffer head is error : user:%d\n",node_no);
+        flag = 0;
+        break;
+      }
     }
+    // for(int i = 0;i < HEAD_LEN;i++)
+    // {
+    //     if(chr_read_head[i] != __HEAD[i])
+    //     {
+    //         flag = 0;
+    //         printf("i,read_flag,head:%d,%x,%x \n",i,chr_read_head[i],__HEAD[i]);
+    //         break;
+    //     }
+    // }
 #if 0
     printf("[consume]frmae_type:%d\n",read_head->frame.frame_type);
 #endif
@@ -147,13 +156,16 @@ heads:
         if(locked == 1)
             goto heads;
         else if(locked == 0)
-          return -1;
+        //<modify by Antony 2016-8-25>
+        //  return -1;
+          return 0;
+        //<!2016-8-25>
     }
     //如果读与写相差的距离在窗口设定以外，则断开读功能
     int32_t incr = SEQ_INCR(read_seq,wnd_size,dataBuffer->size);
     if(SEQ_LEQ(incr,write_next_seq,SHIFT_BITS))
     {
-        printf("send window stall, break send! incr=%d,write_next_seq=%d\n",incr,write_next_seq);
+        printf("send window stall, break send! incr=%d,write_next_seq=%d,user:%d\n",incr,write_next_seq,node_no);
 
         return -1;
     }
@@ -170,15 +182,26 @@ heads:
     }
     //解析头是否是正确的头信息，如果是，则进行数据读写
     int flag = 1;
-    for(int i = 0;i < HEAD_LEN;i++)
+    for(int i = 0;i < 8;i++)
     {
-        if(chr_read_head[i] != __HEAD[i])
+        if(read_head->flag[i] != BUFHEAD[i])
         {
-            flag = 0;
-            printf("i,read_flag,head:%d,%x,%x \n",i,chr_read_head[i],__HEAD[i]);
-            break;
+          printf("buffer head is error,locked = %d,user:%d\n",locked,node_no);
+          flag = 0;
+
+          break;
         }
     }
+
+    // for(int i = 0;i < HEAD_LEN;i++)
+    // {
+    //     if(chr_read_head[i] != __HEAD[i])
+    //     {
+    //         flag = 0;
+    //         printf("i,read_flag,head:%d,%x,%x \n",i,chr_read_head[i],__HEAD[i]);
+    //         break;
+    //     }
+    // }
 #if 0
     printf("[consume]frmae_type:%d\n",read_head->frame.frame_type);
 #endif
@@ -205,6 +228,7 @@ heads:
     else
     {
         printf("data format error!\n");
+
         return -1;
     }
 
@@ -214,13 +238,13 @@ int QSlidingWindowConsume::read_data_and_head(char *data_buffer)
 heads:
 
     //usleep(100);
-#if defined(Q_OS_WIN32)
-        usleep(1000);
-#elif defined(Q_OS_MACX)
-        pthread_yield_np();
-#elif defined(Q_OS_UNIX)
-        pthread_yield();
-#endif
+// #if defined(Q_OS_WIN32)
+//         usleep(1000);
+// #elif defined(Q_OS_MACX)
+//         pthread_yield_np();
+// #elif defined(Q_OS_UNIX)
+//         pthread_yield();
+// #endif
     write_next_seq = dataBuffer->write_next_seq;
     //判定读指针是否与写指针相差1帧以上，如果不是，继续等待写数据
     if(SEQ_LEQ(write_next_seq,read_seq,SHIFT_BITS))
@@ -248,15 +272,21 @@ heads:
     }
     //解析头是否是正确的头信息，如果是，则进行数据读写
     int flag = 1;
-    for(int i = 0;i < HEAD_LEN;i++)
+    if(strcmp(read_head->flag,BUFHEAD) != 0)
     {
-        if(chr_read_head[i] != __HEAD[i])
-        {
-            flag = 0;
-            printf("i,read_flag,head:%d,%x,%x \n",i,chr_read_head[i],__HEAD[i]);
-            break;
-        }
+      printf("buffer head is error\n");
+      flag = 0;
+      return -1;
     }
+    // for(int i = 0;i < HEAD_LEN;i++)
+    // {
+    //     if(chr_read_head[i] != __HEAD[i])
+    //     {
+    //         flag = 0;
+    //         printf("i,read_flag,head:%d,%x,%x \n",i,chr_read_head[i],__HEAD[i]);
+    //         break;
+    //     }
+    // }
 #if 0
     printf("[consume]frmae_type:%d\n",read_head->frame.frame_type);
 #endif
